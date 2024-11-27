@@ -8,7 +8,9 @@ function App() {
     const regex = /(\[[^\]]+\]X\d+)|(\d+(?: \d+)*)(?=\[|$)/g;
 
     // Match all blocks
-    const blocks = [...input.matchAll(regex)].map((match) => match[0]);
+    const blocks = [
+      ...input?.replace(/(\d)\s+\[/g, "$1[")?.matchAll(regex),
+    ].map((match) => match[0]);
 
     // Process each block
     const formattedBlocks = blocks.map((block) => {
@@ -20,13 +22,14 @@ function App() {
     });
 
     // Join processed blocks back into a single string
-    return formattedBlocks.join("");
+
+    return formattedBlocks.join("")?.replace(/\[(\d+\s+\d+)(?=\[)/g, "[$1]x1");
   }
 
   let addBrace = addBraces(input);
   console.log(addBrace, "aaaaaaaaaaaa");
 
-  let replaceX = input?.replace(/x/gi, "*");
+  let replaceX = addBrace?.replace(/x/gi, "*");
   let removeNewLine = replaceX?.replace(/\\n|\r/g, " ");
   let removeWhiteSpace = removeNewLine?.replace(/(?<!\d)\s+|\s+(?!\d)/g, "");
 
@@ -262,95 +265,57 @@ function App() {
   };
 
   let bbb = `
-  [1 1 2 2 3 3 4 4]X2
-  [1 2]X2
-  [1 9 2 9 3 10 4 10 1 11 2 11 3 12 4 12 1 13 2 13 3 12 4 12 1 11 2 11 3 10 4 10]X2
+    [1 6 2 6
+[[1 5 2 5]X2
+[3 6 4 6]X2]X4
+[1 5 2 5]X2
+[[1 7 2 7]X5
+[3 8 4 8]X5]X4
+[1 7 2 7]X6
+1 6 3 6
+[[1 5 2 5]X2
+[3 6 4 6]X2]X4
+[1 5 2 5]X2
+[1 2
+3 4]X12
+1 10 2 10
+[[1 9 2 9]X2
+[3 10 4 10]X2]X4
+[1 9 2 9]X2
+[[1 11 2 11]X5
+[3 12 4 12]X5]X4
+[1 11 2 11]X6
+1 10 2 10
+[[1 9 2 9]X2
+[3 10 4 10]X2]X4
+[1 9 2 9]X2
+[1 2
+3 4]X81]X8
 
-  1 9 2 9
-
-  [1 2]X2
-  [1 1 2 2 3 3 4 4]X2
-  [1 2]X2
-  [1 9 2 9 3 10 4 10 1 11 2 11 3 12 4 12 1 13 2 13 3 12 4 12 1 11 2 11 3 10 4 10]X12
-
-  1 9 2 9
-
-  [1 2]X2
-  [1 1 2 2 3 3 4 4]X2
-  [1 2]X2
-  [1 9 2 9 3 10 4 10 1 11 2 11 3 12 4 12 1 13 2 13 3 12 4 12 1 11 2 11 3 10 4 10]X2
-
-  1 9 2 9
-
-  [1 2]X2
-  [1 1 2 2 3 3 4 4]X2
-  [1 2 3 4]X62
-  [1 8 2 8]X11
-  [3 7 4 7]X11
-  [1 6 2 6]X11
-  [3 5 4 5]X11
-  [1 2 3 4]X62
-  [1 1 2 2 3 3 4 4]X4
-  [1 2 3 4]X62
-  [1 5 2 5]X10
-  [3 6 4 6]X10
-  [1 7 2 7]X10
-  [3 8 4 8]X10
-  [1 7 2 7]X10
-  [3 6 4 6]X10
-  [1 5 2 5]X10
-  [1 2 3 4]X62
-  [1 1 2 2 3 3 4 4]X4
-  [1 2 3 4]X62
-  [1 6 2 6]X23
-  [1 2 3 4]X62
-  [1 1 2 2 3 3 4 4]X4
-  [1 2 3 4]X62
-  [3 6 4 6]X23
-  [1 2 3 4]X62
-  [1 1 2 2 3 3 4 4]X4
-  [1 2 3 4]X62
-  [1 6 2 6]X23
-  [1 2 3 4]X62
-  [1 1 2 2 3 3 4 4]X4
-  [1 2 3 4]X62
-  [1 8 2 8]X10
-  [3 7 4 7]X10
-  [1 6 2 6]X10
-  [3 5 4 5]X10
-  [3 6 4 6]X10
-  [1 7 2 7]X10
-  [3 8 4 8]X10
-  [1 2 3 4]X62
-  [1 1 2 2 3 3 4 4]X4
-  [1 2 3 4]X62
-  [1 5 2 5]X11
-  [3 6 4 6]X11
-  [1 7 2 7]X11
-  [3 8 4 8]X11
-  [1 2 3 4]X62
-  [1 1 2 2 3 3 4 4]X2
-  [1 2]X2
-  [1 9 2 9 3 10 4 10 1 11 2 11 3 12 4 12 1 13 2 13 3 12 4 12 1 11 2 11 3 10 4 10]X2
-
-  1 9 2 9
-
-  [1 2]X2
-  [1 1 2 2 3 3 4 4]X2
-  [1 2]X2
-  [1 9 2 9 3 10 4 10 1 11 2 11 3 12 4 12 1 13 2 13 3 12 4 12 1 11 2 11 3 10 4 10]X12
-
-  1 9 2 9
-
-  [1 2]X2
-  [1 1 2 2 3 3 4 4]X2
-  [1 2]X2
-  [1 9 2 9 3 10 4 10 1 11 2 11 3 12 4 12 1 13 2 13 3 12 4 12 1 11 2 11 3 10 4 10]X2
-
-  1 9 2 9
-
-  [1 2]X2
-  [1 1 2 2 3 3 4 4]X2`;
+1 6 2 6
+[[1 5 2 5]X2
+[3 6 4 6]X2]X4
+[1 5 2 5]X2
+[[1 7 2 7]X5
+[3 8 4 8]X5]X4
+[1 7 2 7]X6
+1 6 3 6
+[[1 5 2 5]X2
+[3 6 4 6]X2]X4
+[1 5 2 5]X2
+[1 2
+3 4]X12
+1 10 2 10
+[[1 9 2 9]X2
+[3 10 4 10]X2]X4
+[1 9 2 9]X2
+[[1 11 2 11]X5
+[3 12 4 12]X5]X4
+[1 11 2 11]X6
+1 10 2 10
+[[1 9 2 9]X2
+[3 10 4 10]X2]X4
+[1 9 2 9]X2`;
 
   // Calculate spans for R2 and R3
 
@@ -447,7 +412,9 @@ function App() {
     const regex = /(\[[^\]]+\]X\d+)|(\d+(?: \d+)*)(?=\[|$)/g;
 
     // Match all blocks
-    const blocks = [...input.matchAll(regex)].map((match) => match[0]);
+    const blocks = [
+      ...input?.replace(/(\d)\s+\[/g, "$1[")?.matchAll(regex),
+    ].map((match) => match[0]);
 
     // Process each block
     const formattedBlocks = blocks.map((block) => {
@@ -459,19 +426,13 @@ function App() {
     });
 
     // Join processed blocks back into a single string
-    return formattedBlocks.join("");
+
+    return formattedBlocks.join("")?.replace(/\[(\d+\s+\d+)(?=\[)/g, "[$1]x1");
   }
 
-  // Example input
-  // const ii =
-  //   "[1 1 2 2 3 3 4 4]X2[1 2]X2 1 9 2 9[1 2]X2[1 1 2 2 3 3 4 4]X25 5 5 5[1 2]X2 1 9 2 9[1 2]X2[1 1 2 2 3 3 4 4]X2[1 2]X2 1 9 2 9[1 2]X2";
-
-  // // Process the input
-  // const result = formatString(input);
-  // console.log(result);
   console.log(aaa === bbb, "is equal");
 
-  console.log(formatString(aaa), "new output");
+  console.log(formatString(bbb), "new output");
   return (
     <div className="w-full flex items-center pt-20 justify-center">
       <div className="m-10 w-[80%] p-3 font-bold">
