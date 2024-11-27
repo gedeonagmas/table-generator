@@ -29,7 +29,7 @@ function App() {
   let addBrace = addBraces(input);
   console.log(addBrace, "aaaaaaaaaaaa");
 
-  let replaceX = addBrace?.replace(/x/gi, "*");
+  let replaceX = input?.replace(/x/gi, "*");
   let removeNewLine = replaceX?.replace(/\\n|\r/g, " ");
   let removeWhiteSpace = removeNewLine?.replace(/(?<!\d)\s+|\s+(?!\d)/g, "");
 
